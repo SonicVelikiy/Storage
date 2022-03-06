@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Omborxona</title>
+    <link rel="stylesheet" href="/static/itm/bootstrap/css/bootstrap.min.css">
+
+</head>
+<body>
+
+<div class="container">
+    <a href="{% url 'inproduct'%}"><button type="submit" class="btn btn-success">Kirim qilish</button></a>
+    <button type="submit" class="btn btn-danger">Chiqim qilish</button>
+
+
+<h1>Omborxona</h1>
+    <form>
+        <input name="search" value="" placeholder="Mahsulot qidiruv....">
+    </form>
+    <ol>
+        {% for prod in inproduct %}
+        <li>
+            {{prod.name}}->{{prod.count}}{{prod.unit}}
+        </li>
+        {%endfor%}
+    </ol>
+</div>
+</body>
+</html>
