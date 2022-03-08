@@ -9,7 +9,7 @@ def HistoryStorage(request):
         inproduct = Inproduct.objects.all()
     else:
         inproduct = Inproduct.objects.filter(name__contains=search)
-    return render(request,"itm/home.html",{"inproduct":inproduct})
+    return render(request,"itm/addhistory.html",{"inproduct":inproduct})
 
 class CreateProduct(View):
     #mahsulot qo'shish tarixini ishlab chiqish kerak
@@ -21,10 +21,17 @@ class CreateProduct(View):
         if form.is_valid():
             data = form.cleaned_data
             valid_data = data['name']
-            # try:
-            validator = BalanceStorage.objects.filter(name = valid_data)
-            # except:
-            #     print("Error")
+            validator = BalanceStorage.objects.get(name=valid_data)
+            if not (validator):
+                BalanceStorage.objects.create(
+                    name=data['name'],
+                    count=data['count'],
+                    unit=data['unit'],
+                )
+            else:
+                update = BalanceStorage.objects.get(name=valid_data)
+                update.count = update.count+float(data['count'])
+                update.save()
             product = Inproduct.objects.create(
                 name=data['name'],
                 inload_number=data['inload_number'],
@@ -36,4 +43,11 @@ class CreateProduct(View):
 
 class Balance(View):
     def get(self,request):
-        return render(request,"itm/balancestorage.html")
+        search = request.GET.get('search')
+        if search is None:
+            data = BalanceStorage.objects.all()
+            search=""
+        else:
+            data = BalanceStorage.objects.filter(name__contains=search)
+
+        return render(request,"itm/balancestorage.html",{"data":data,"search":search})

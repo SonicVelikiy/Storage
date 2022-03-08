@@ -6,5 +6,15 @@
 </head>
 <body>
 <h1>Omborxona mahsulotlari</h1>
+ <form>
+        <input name="search" value="{{ search }}" placeholder="Mahsulot qidiruv....">
+    </form>
+    <ol>
+        {% for prod in data %}
+        <li>
+            {{prod.name}}->{{prod.count}}{{prod.unit}}
+        </li>
+        {%endfor%}
+    </ol>
 </body>
 </html>
