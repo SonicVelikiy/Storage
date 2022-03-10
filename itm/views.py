@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from .models import Inproduct,Outproduct,BalanceStorage
 from .forms import addproduct
 from django.views import View
+from django.core.paginator import Paginator
 
 def HistoryStorage(request):
     search = request.GET.get("search")
@@ -21,17 +22,17 @@ class CreateProduct(View):
         if form.is_valid():
             data = form.cleaned_data
             valid_data = data['name']
-            validator = BalanceStorage.objects.get(name=valid_data)
-            if not (validator):
+            try:
+                validator = BalanceStorage.objects.get(name=valid_data)
+                update = BalanceStorage.objects.get(name=valid_data)
+                update.count = update.count + float(data['count'])
+                update.save()
+            except:
                 BalanceStorage.objects.create(
                     name=data['name'],
                     count=data['count'],
                     unit=data['unit'],
                 )
-            else:
-                update = BalanceStorage.objects.get(name=valid_data)
-                update.count = update.count+float(data['count'])
-                update.save()
             product = Inproduct.objects.create(
                 name=data['name'],
                 inload_number=data['inload_number'],
@@ -43,11 +44,18 @@ class CreateProduct(View):
 
 class Balance(View):
     def get(self,request):
+
         search = request.GET.get('search')
         if search is None:
             data = BalanceStorage.objects.all()
+            paginator = Paginator(data,2)
+            page_num = request.GET.get('page')
+            page_obj = paginator.get_page(page_num)
             search=""
         else:
             data = BalanceStorage.objects.filter(name__contains=search)
+            paginator = Paginator(data, 15)
+            page_num = request.GET.get('page')
+            page_obj = paginator.get_page(page_num)
 
-        return render(request,"itm/balancestorage.html",{"data":data,"search":search})
+        return render(request,"itm/balancestorage.html",{"search":search,"page":page_obj,"all":paginator})

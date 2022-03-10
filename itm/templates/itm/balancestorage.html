@@ -3,18 +3,84 @@
 <head>
     <meta charset="UTF-8">
     <title>Omborxona mahsulotlari</title>
+    <link rel="stylesheet" href="/static/itm/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/static/itm/styles.css">
+    <link rel="stylesheet" href="/static/itm/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/static/itm/font-awesome/css/font-awesome.css">
 </head>
 <body>
-<h1>Omborxona mahsulotlari</h1>
- <form>
-        <input name="search" value="{{ search }}" placeholder="Mahsulot qidiruv....">
-    </form>
-    <ol>
-        {% for prod in data %}
-        <li>
-            {{prod.name}}->{{prod.count}}{{prod.unit}}
-        </li>
-        {%endfor%}
-    </ol>
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <h1 class="close">Omborxonada mavjud mahsulotlari</h1>
+            <div class="btn-group md-3">
+                <form action="{%url 'inproduct'%}">
+                    <button type="submit" class="btn btn-primary mb-3">Mahsulot kirim qilish</button>
+                </form>
+                <form>
+                    <button type="button" class="btn btn-danger mb-3"><a>Mahsulot chiqib qilish</a></button>
+                </form>
+                <form>
+                    <button type="button" class="btn btn-warning mb-3">Savatcha</button>
+                </form>
+            </div>
+            <form>
+                <div class="input-group mb-3">
+                        <span class="input-group-text" id="inputGroup-sizing-default"><span style="padding:5px"><i
+                                class="fa fa-search"></i></span></span>
+                    <input name="search" value="{{ search }}" class="form-control"
+                           placeholder="Mahsulot nomini kiriting..." id="bool">
+                    <span class="clear" onclick="myfunc()"><i class="fa fa-times" aria-hidden="true"></i></span>
+                </div>
+            </form>
+            <table class="table">
+                <thead>
+                <tr>
+                    <th scope="col">T/R</th>
+                    <th scope="col">Mahsulot nomi</th>
+                    <th scope="col">Miqdori</th>
+                    <th scope="col">Birligi</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for prod in page %}
+                <tr>
+                    <th scope="row">{{forloop.counter}}</th>
+                    <td>{{prod.name}}</td>
+                    <td>{{prod.count}}</td>
+                    <td>{{prod.unit}}</td>
+                </tr>
+                {%endfor%}
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <nav aria-label="Page navigation example">
+        <ul class="pagination">
+
+            {%if page.has_other_pages%}
+            {%if page.has_previous%}
+            <li class="page-item"><a class="page-link" href="?page={{page.previous_page_number}}">Previous</a></li>
+            {%endif%}
+
+            {%for i in all.paginition.num_pages %}
+
+            <li class="page-item active"><a class="page-link" href="#">{{i}}</a></li>
+
+            {%endfor%}
+            <li class="page-item active"><a class="page-link" href="#">{{page.number}}</a></li>
+            <li class="page-item active"><a class="page-link" href="#">{{page.number}}</a></li>
+
+
+            {%if page.has_next%}
+            <li class="page-item"><a class="page-link" href="?page={{page.next_page_number}}">Next</a></li>
+            {%endif%}
+            {%endif%}
+
+        </ul>
+    </nav>
+</div>
+<script src="/static/itm/javascript.js"></script>
 </body>
 </html>
