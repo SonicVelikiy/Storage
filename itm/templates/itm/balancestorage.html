@@ -64,15 +64,14 @@
             <li class="page-item"><a class="page-link" href="?page={{page.previous_page_number}}">Previous</a></li>
             {%endif%}
 
-            {%for i in all.paginition.num_pages %}
-
-            <li class="page-item active"><a class="page-link" href="#">{{i}}</a></li>
-
+            {% for i in all %}
+            {%if i.number != page.number%}
+            <li class="page-item"><a class="page-link" href="?page={{i.number}}">{{i.number}}</a></li>
+            {%endif%}
+            {%if i.number == page.number%}
+            <li class="page-item active"><a class="page-link">{{i.number}}</a></li>
+            {%endif%}
             {%endfor%}
-            <li class="page-item active"><a class="page-link" href="#">{{page.number}}</a></li>
-            <li class="page-item active"><a class="page-link" href="#">{{page.number}}</a></li>
-
-
             {%if page.has_next%}
             <li class="page-item"><a class="page-link" href="?page={{page.next_page_number}}">Next</a></li>
             {%endif%}
