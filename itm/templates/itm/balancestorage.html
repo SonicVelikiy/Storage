@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <title>Omborxona mahsulotlari</title>
     <link rel="stylesheet" href="/static/itm/bootstrap/css/bootstrap.min.css">
-    <link rel="stylesheet" href="/static/itm/styles.css">
+    <link rel="stylesheet" href="/static/itm/css/styles.css">
     <link rel="stylesheet" href="/static/itm/font-awesome/css/font-awesome.min.css">
     <link rel="stylesheet" href="/static/itm/font-awesome/css/font-awesome.css">
 </head>
@@ -58,12 +58,10 @@
     </div>
     <nav aria-label="Page navigation example">
         <ul class="pagination">
-
             {%if page.has_other_pages%}
             {%if page.has_previous%}
             <li class="page-item"><a class="page-link" href="?page={{page.previous_page_number}}">Previous</a></li>
             {%endif%}
-
             {% for i in all %}
             {%if i.number != page.number%}
             <li class="page-item"><a class="page-link" href="?page={{i.number}}">{{i.number}}</a></li>
@@ -80,6 +78,6 @@
         </ul>
     </nav>
 </div>
-<script src="/static/itm/javascript.js"></script>
+<script src="/static/itm/js/javascript.js"></script>
 </body>
 </html>
