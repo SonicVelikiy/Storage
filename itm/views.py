@@ -48,13 +48,13 @@ class Balance(View):
         search = request.GET.get('search')
         if search is None:
             data = BalanceStorage.objects.all()
-            paginator = Paginator(data,2)
+            paginator = Paginator(data,15)
             page_num = request.GET.get('page')
             page_obj = paginator.get_page(page_num)
             search=""
         else:
             data = BalanceStorage.objects.filter(name__contains=search)
-            paginator = Paginator(data, 15)
+            paginator = Paginator(data,15)
             page_num = request.GET.get('page')
             page_obj = paginator.get_page(page_num)
 
