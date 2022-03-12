@@ -2,17 +2,71 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Mahsulotni kirim qilish</title>
+    <title>Kirim yuk xati</title>
     <link rel="stylesheet" href="/static/itm/bootstrap/css/bootstrap.min.css">
-
+    <link rel="stylesheet" href="/static/itm/css/styles.css">
+    <link rel="stylesheet" href="/static/itm/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/static/itm/font-awesome/css/font-awesome.css">
 </head>
 <body>
-<h1>Mahsulot kirim qilish</h1>
-<form method="post">
-    {%csrf_token%}
-    {{form}}
-    <button type="submit">Kirim</button>
-</form>
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <h1 class="close">Kirim yuk xati</h1>
+            <div class="btn-group md-3">
+                <form action="{%url 'balance'%}">
+                    <button type="submit" class="btn btn-primary mb-3">Omborxonada mavjud mahsulotlar</button>
+                </form>
+                <form>
+                    <button type="button" class="btn btn-danger mb-3"><a>Mahsulot chiqib qilish</a></button>
+                </form>
+                <form>
+                    <button type="button" class="btn btn-warning mb-3">Savatcha</button>
+                </form>
+            </div>
+            <form method="post">
+                {%csrf_token%}
+                <h2 class="xat"> YUK XATI №<input name="number" class="num"></h2>
 
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th scope="col">T/R</th>
+                        <th scope="col">Mahsulot nomi</th>
+                        <th scope="col">Miqdori</th>
+                        <th scope="col">Birligi</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {%for counter in form%}
+                    <tr>
+                        <th scope="row">{{counter}}</th>
+                        <td><input name="mahsulot{{counter}}" class="mahsulot"></td>
+                        <td><input name="miqdori{{counter}}" class="miqdori"></td>
+                        <td><select name="unit{{counter}}" id="unit" class="unit">
+                            {%for opt in choies%}
+                            <option value="{{opt}}">{{opt}}</option>
+                            {%endfor%}
+                        </select></td>
+                    </tr>
+                    {%endfor%}
+                    </tbody>
+                </table>
+                <div class="qabul">
+                    <h3>Olib keldi:<input class="mahsulot" name="outload"></h3>
+                    <h3>Qabul qildi:<input class="mahsulot" name="inload"></h3>
+                    <h3>Qachon keldi:<input class="mahsulot" name="date" type="datetime-local"></h3>
+
+                </div>
+
+                <div style="text-align:center">
+                    <button type="submit" class="btn btn-primary" style="width:50%;padding:10px;">Kirim qilish</button>
+                </div>
+
+            </form>
+        </div>
+    </div>
+</div>
+<script src="/static/itm/js/javascript.js"></script>
 </body>
 </html>
