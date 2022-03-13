@@ -4,6 +4,12 @@ border-radius:8px;
 background-color:MediumSeaGreen;
 text-align: center;
 }
+.outclose{
+margin:15px;
+border-radius:8px;
+background-color:OrangeRed;
+text-align: center;
+}
 
 .xat{
 margin:15px;

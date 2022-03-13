@@ -1,5 +1,4 @@
 import datetime
-
 from django.db import models
 
 class Inproduct(models.Model):
@@ -33,7 +32,6 @@ class Inproduct(models.Model):
         return f"{self.name}--{self.count}--{self.instorageperson}--{self.takeinstorageperson}--{self.unit}--{self.in_date}"
 class Outproduct(models.Model):
     name = models.CharField(max_length=512)
-    receiver_name = models.CharField(max_length=200)
     outload_number = models.CharField(max_length=200)
     outstorageperson = models.CharField(max_length=200)
     getinstorageperson = models.CharField(max_length=200)

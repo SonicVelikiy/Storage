@@ -1,19 +1,41 @@
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from .models import Inproduct,Outproduct,BalanceStorage
-from .forms import addproduct
 from django.views import View
 from django.core.paginator import Paginator
 from .process import html_to_pdf
+# from .forms import addproduct
 
 
-def HistoryStorage(request):
-    search = request.GET.get("search")
+def InHistory(request):
+    search = request.GET.get('search')
     if search is None:
-        inproduct = Inproduct.objects.all()
+        data = Inproduct.objects.all()
+        paginator = Paginator(data, 15)
+        page_num = request.GET.get('page')
+        page_obj = paginator.get_page(page_num)
+        search = ""
     else:
-        inproduct = Inproduct.objects.filter(name__contains=search)
-    return render(request,"itm/addhistory.html",{"inproduct":inproduct})
+        data = Inproduct.objects.filter(name__contains=search)
+        paginator = Paginator(data, 15)
+        page_num = request.GET.get('page')
+        page_obj = paginator.get_page(page_num)
+    return render(request, "itm/inhistory.html", {"search": search, "page": page_obj, "all": paginator})
+
+def OutHistory(request):
+    search = request.GET.get('search')
+    if search is None:
+        data = Outproduct.objects.all()
+        paginator = Paginator(data, 15)
+        page_num = request.GET.get('page')
+        page_obj = paginator.get_page(page_num)
+        search = ""
+    else:
+        data = Outproduct.objects.filter(name__contains=search)
+        paginator = Paginator(data, 15)
+        page_num = request.GET.get('page')
+        page_obj = paginator.get_page(page_num)
+    return render(request, "itm/outhistory.html", {"search": search, "page": page_obj, "all": paginator})
 
 #bazadan olib yozishga tayyor
 class pdf(View):
@@ -39,7 +61,6 @@ class CreateProduct(View):
             addmahsulot = request.POST.get(mahsulot)
             addmiqdori = request.POST.get(miqdori)
             addunit = request.POST.get(birlik)
-
             if addmahsulot and addmiqdori:
                 addmahsulot = addmahsulot.lower()
                 addmahsulot = addmahsulot.strip()
@@ -53,14 +74,14 @@ class CreateProduct(View):
                         count=addmiqdori,
                         unit=addunit,
                     )
-                    product = Inproduct.objects.create(
-                        name=addmahsulot,
-                        inload_number=number,
-                        count=addmiqdori,
-                        instorageperson=inloadname,
-                        takeinstorageperson=outloadname,
-                        unit=addunit,
-                        in_date=inloaddate
+                product = Inproduct.objects.create(
+                    name=addmahsulot,
+                    inload_number=number,
+                    count=addmiqdori,
+                    instorageperson=inloadname,
+                    takeinstorageperson=outloadname,
+                    unit=addunit,
+                    in_date=inloaddate
                     )
 
             else:
@@ -80,5 +101,47 @@ class Balance(View):
             paginator = Paginator(data,15)
             page_num = request.GET.get('page')
             page_obj = paginator.get_page(page_num)
-
         return render(request,"itm/balancestorage.html",{"search":search,"page":page_obj,"all":paginator})
+class KickProduct(View):
+    def get(self, request):
+        form = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+        choies = (("kg"), ("tonna"), ("gramm"), ("litr"), ("metr"), ("sm"), ("dona"))
+        return render(request, "itm/outproduct.html", {"form": form, "choies": choies})
+    def post(self,request):
+        outload_number = request.POST.get('number')
+        getinstorageperson = request.POST.get('inloader')
+        outstorageperson = request.POST.get('outloader')
+        inloaddate = request.POST.get('date')
+        for i in range(1,11):
+            mahsulot = "mahsulot" + str(i)
+            miqdori = "miqdori" + str(i)
+            birlik = "unit" + str(i)
+            addmahsulot = request.POST.get(mahsulot)
+            addmiqdori = request.POST.get(miqdori)
+            addunit = request.POST.get(birlik)
+
+            if addmahsulot and addmiqdori:
+                addmahsulot = addmahsulot.lower()
+                addmahsulot = addmahsulot.strip()
+                try:
+                    update = BalanceStorage.objects.get(name=addmahsulot)
+                    update.count = update.count - float(addmiqdori)
+                    update.save()
+                except:
+                    BalanceStorage.objects.create(
+                        name=addmahsulot,
+                        count=addmiqdori,
+                        unit= (-1.0) * addunit,
+                    )
+                product = Outproduct.objects.create(
+                    name=addmahsulot,
+                    outload_number=outload_number,
+                    count=addmiqdori,
+                    outstorageperson=outstorageperson,
+                    getinstorageperson=getinstorageperson,
+                    unit=addunit,
+                    out_date=inloaddate
+                    )
+
+            else:
+                return redirect("balance")

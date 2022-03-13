@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Omborxona mahsulotlari</title>
+    <title>Omborxona tarixi</title>
     <link rel="stylesheet" href="/static/itm/bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="/static/itm/css/styles.css">
     <link rel="stylesheet" href="/static/itm/font-awesome/css/font-awesome.min.css">
@@ -13,8 +13,11 @@
 <div class="container">
     <div class="row">
         <div class="col-md-12">
-            <h1 class="close">Omborxonada mavjud mahsulotlari</h1>
+            <h1 class="close">Omborxonada chiqim tarixi</h1>
             <div class="btn-group md-3">
+                <form action="{%url 'balance'%}">
+                    <button type="submit" class="btn btn-primary mb-3">Omborxonada mavjud mahsulotlar</button>
+                </form>
                 <form action="{%url 'inproduct'%}">
                     <button type="submit" class="btn btn-success mb-3">Mahsulot kirim qilish</button>
                 </form>
@@ -23,9 +26,6 @@
                 </form>
                 <form action="{%url 'inhistory'%}">
                     <button type="submit" class="btn btn-info mb-3">Omborxona kirim tarixi</button>
-                </form>
-                <form action="{%url 'outhistory'%}">
-                    <button type="submit" class="btn btn-warning mb-3">Omborxona chiqim tarixi</button>
                 </form>
             </div>
             <form>
@@ -44,6 +44,10 @@
                     <th scope="col">Mahsulot nomi</th>
                     <th scope="col">Miqdori</th>
                     <th scope="col">Birligi</th>
+                    <th scope="col">Chiqim yuk xati raqami</th>
+                    <th scope="col">Qabul qilgan</th>
+                    <th scope="col">Topshirgan</th>
+                    <th scope="col">Vaqti</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -53,6 +57,10 @@
                     <td>{{prod.name}}</td>
                     <td>{{prod.count}}</td>
                     <td>{{prod.unit}}</td>
+                    <td>{{prod.outload_number}}</td>
+                    <td>{{prod.getinstorageperson}}</td>
+                    <td>{{prod.outstorageperson}}</td>
+                    <td>{{prod.out_date}}</td>
                 </tr>
                 {%endfor%}
                 </tbody>

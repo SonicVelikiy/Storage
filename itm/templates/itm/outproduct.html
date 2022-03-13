@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Kirim yuk xati</title>
+    <title>Chiqim yuk xati</title>
     <link rel="stylesheet" href="/static/itm/bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="/static/itm/css/styles.css">
     <link rel="stylesheet" href="/static/itm/font-awesome/css/font-awesome.min.css">
@@ -12,24 +12,24 @@
 <div class="container">
     <div class="row">
         <div class="col-md-12">
-            <h1 class="close">Kirim yuk xati</h1>
+            <h1 class="outclose">Chiqim yuk xati</h1>
             <div class="btn-group md-3">
                 <form action="{%url 'balance'%}">
                     <button type="submit" class="btn btn-primary mb-3">Omborxonada mavjud mahsulotlar</button>
                 </form>
-                <form action="{%url 'kickproduct'%}">
-                    <button type="submit" class="btn btn-danger mb-3"><a>Mahsulot chiqim qilish</a></button>
+                <form action="{%url 'inproduct'%}">
+                    <button type="submit" class="btn btn-success mb-3"><a>Mahsulot kirim qilish</a></button>
                 </form>
                 <form action="{%url 'inhistory'%}">
                     <button type="submit" class="btn btn-info mb-3">Omborxona kirim tarixi</button>
                 </form>
-            <form action="{%url 'outhistory'%}">
+                <form action="{%url 'outhistory'%}">
                     <button type="submit" class="btn btn-warning mb-3">Omborxona chiqim tarixi</button>
                 </form>
             </div>
             <form method="post">
                 {%csrf_token%}
-                <h2 class="xat"> YUK XATI №<input name="number" class="num"></h2>
+                <h2 class="xat">YUK XATI №<input name="number" class="num"></h2>
 
                 <table class="table">
                     <thead>
@@ -56,14 +56,14 @@
                     </tbody>
                 </table>
                 <div class="qabul">
-                    <h3>Olib keldi:<input class="mahsulot" name="outload"></h3>
-                    <h3>Qabul qildi:<input class="mahsulot" name="inload"></h3>
-                    <h3>Qachon keldi:<input class="mahsulot" name="date" type="datetime-local"></h3>
+                    <h3>Topshirdi:<input class="mahsulot" name="outloader"></h3>
+                    <h3>Qabul qildi:<input class="mahsulot" name="inloader"></h3>
+                    <h3>Qachon chiqim bo'ldi:<input class="mahsulot" name="date" type=datetime-local datetime="YYYY-MM-DDThh:mm:ssTZD"></h3>
 
                 </div>
 
                 <div style="text-align:center">
-                    <button type="submit" class="btn btn-primary" style="width:50%;padding:10px;">Kirim qilish</button>
+                    <button type="submit" class="btn btn-danger" style="width:50%;padding:10px;">Chiqim qilish</button>
                 </div>
 
             </form>
