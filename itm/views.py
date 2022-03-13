@@ -1,3 +1,5 @@
+import time
+
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from .models import Inproduct,Outproduct,BalanceStorage
@@ -54,7 +56,7 @@ class CreateProduct(View):
         inloadname = request.POST.get('inload')
         outloadname = request.POST.get('outload')
         inloaddate = request.POST.get('date')
-        for i in range(1,11):
+        for i in range(1,12):
             mahsulot = "mahsulot" + str(i)
             miqdori = "miqdori" + str(i)
             birlik = "unit" + str(i)
@@ -83,7 +85,6 @@ class CreateProduct(View):
                     unit=addunit,
                     in_date=inloaddate
                     )
-
             else:
                 return redirect("balance")
 
@@ -112,7 +113,7 @@ class KickProduct(View):
         getinstorageperson = request.POST.get('inloader')
         outstorageperson = request.POST.get('outloader')
         inloaddate = request.POST.get('date')
-        for i in range(1,11):
+        for i in range(1,12):
             mahsulot = "mahsulot" + str(i)
             miqdori = "miqdori" + str(i)
             birlik = "unit" + str(i)
